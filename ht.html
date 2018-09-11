@@ -7,7 +7,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
-	<ul id="messsages"></ul>
+	<ul id="messages"></ul>
 	WebSocketを使ったアプリケーション
 	<form  id="chatbox">
 		<textarea></textarea><br>
@@ -16,7 +16,7 @@
 	<form name="js">
 		<input type="text" name="txtb" size="10" maxlength="20">
 		<input type="button" value="出力" onclick="tbox1()"><br>
-	</form>
+	</form><!--
 	<script type="text/javascript">
 		$(function(){
 	var socket = null;
@@ -24,7 +24,6 @@
 	var messages = $("#messages");
 
 	$("#chatbox").submit(function(){
-		alert("aaaa");
 		if(! msgbox.val()) return false;
 		if(! socket){
 			alert("エラー：Websocket接続なし");
@@ -41,11 +40,11 @@
 		socket.onclose = function(){
 			alert("接続が終了しました");
 		}
-		socket.onmessages = function(e){
+		socket.onmessage = function(e){
 			messages.append($("<li>").text(e.data));
 		}   
 	}
 });
-	</script>
+	</script>-->
 </body>
 </html>
