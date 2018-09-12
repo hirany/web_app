@@ -29,7 +29,7 @@ func main() {
 	http.Handle("/room", r)
 	go r.run()
 	log.Println("Webサーバを開始します。ポート: ", *addr)
-	if err := http.ListenAndServe(":8000", nil); err != nil {
+	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
