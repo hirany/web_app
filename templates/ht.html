@@ -1,8 +1,51 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Hi!</title>
-    </head>
-    <body>
-        Hello!!!!!!!!!
-    </body>
+<head>
+	<meta charset="utf-8">
+	<title>チャットのサンプル ごり押しバージョン</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<!--<script type="text/javascript" src="ht.js"></script>-->
+	<ul id="messages"></ul>
+	WebSocketを使ったアプリケーション
+	<form  id="chatbox">
+		<textarea></textarea><br>
+		<input type="submit" value="送信" /><br>
+	</form>
+	<form name="js">
+		<input type="text" name="txtb" size="10" maxlength="20">
+		<input type="button" value="出力" onclick="tbox1()"><br>
+	</form>
+	
+	<script type="text/javascript">
+		$(function(){
+	var socket = null;
+	var msgbox = $("#chatbox textarea");
+	var messages = $("#messages");
+
+	$("#chatbox").submit(function(){
+		if(! msgbox.val()) return false;
+		if(! socket){
+			alert("エラー：Websocket接続なし");
+			return false;
+		}
+		socket.send(msgbox.val());
+		msgbox.val("");
+		return false;
+	});
+	if (!window["WebSocket"]) {
+		alert("エラー：対応していないブラウザです")
+	} else {
+		socket = new WebSocket("ws://localhost:8000/room");
+		socket.onclose = function(){
+			alert("接続が終了しました");
+		}
+		socket.onmessage = function(e){
+			messages.append($("<li>").text(e.data));
+		}   
+	}
+});
+	</script>
+</body>
 </html>
