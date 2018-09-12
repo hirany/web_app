@@ -30,29 +30,33 @@ func newRoom() *room {
 
 func (r *room) run() {
 	for {
-		fmt.Println("ここを通りました。")
 		select {
 		case client := <-r.join:
 			// 参加
 			r.clients[client] = true
 			r.tracer.Trace("新しいクライアントが参加しました")
+			fmt.Println("新しいクライアントの参加")
 		case client := <-r.leave:
 			// 退室
 			delete(r.clients, client)
 			close(client.send)
 			r.tracer.Trace("クライアントが退室しました")
+			fmt.Println("クライアントの退室")
 		case msg := <-r.forward:
 			r.tracer.Trace("メッセージを受信しました: ", string(msg))
+			fmt.Println("メッセージの受信")
 			for client := range r.clients {
 				select {
 				case client.send <- msg:
 					// メッセージを送信
 					r.tracer.Trace(" -- クライアントに受信しました")
+					fmt.Println("クライアントに送信")
 				default:
 					// 送信に失敗
 					delete(r.clients, client)
 					close(client.send)
 					r.tracer.Trace(" -- 送信に失敗しました。クライアントをクリーンアップします")
+					fmt.Println("送信に失敗")
 				}
 			}
 		}
