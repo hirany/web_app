@@ -19,7 +19,14 @@
 	</form>
 	
 	<script type="text/javascript">
-		$(function(){
+
+	function go(){
+		//ENTERキーならsubmit
+		if(window.event.keyCode==13){
+			document.formname.submit();
+	}
+
+	$(function(){
 	var socket = null;
 	var msgbox = $("#chatbox textarea");
 	var messages = $("#messages");
