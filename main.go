@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"./trace"
+	"github.com/hirany/web_app/trace"
 )
 
 type templateHandler struct {
@@ -29,9 +29,9 @@ func main() {
 	flag.Parse()
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
-	http.Handle("/chat!", MustAuth(&templateHandler{filename: "ht.html"}))
+	//http.Handle("/chat!", MustAuth(&templateHandler{filename: "ht.html"}))
 	http.Handle("/login", &templateHandler{filename: "loginpage1.html"})
-	http.HandleFunc("/auth/", loginHandler)
+	//http.HandleFunc("/auth/", loginHandler)
 	http.Handle("/room", r)
 	go r.run()
 	log.Println("Webサーバを開始 ポート: ", *addr)
