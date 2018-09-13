@@ -32,7 +32,10 @@ func main() {
 	//http.Handle("/chat!", MustAuth(&templateHandler{filename: "ht.html"}))
 	http.Handle("/login", &templateHandler{filename: "loginpage1.html"})
 	//http.HandleFunc("/auth/", loginHandler)
+
 	http.Handle("/room", r)
+	fs := http.FileServer(http.Dir("static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	go r.run()
 	log.Println("Webサーバを開始 ポート: ", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
