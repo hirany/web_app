@@ -10,6 +10,8 @@ import (
 	"sync"
 
 	"github.com/hirany/web_app/trace"
+	"github.com/stretchr/gomniauth"
+	"github.com/stretchr/gomniauth/providers/google"
 )
 
 type templateHandler struct {
@@ -27,12 +29,19 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8000", "アプリケーションのアドレス")
 	flag.Parse()
+	gomniauth.SetSecurityKey("セキュリティーキー")
+	gomniauth.WithProviders(
+		google.New("", "", "http://localhost:8000/auth/callback/google"),
+	)
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
-	//http.Handle("/chat!", MustAuth(&templateHandler{filename: "ht.html"}))
+	http.Handle("/chat", MustAuth(&templateHandler{filename: "ht.html"}))
 	http.Handle("/login", &templateHandler{filename: "loginpage1.html"})
-	//http.HandleFunc("/auth/", loginHandler)
+	http.HandleFunc("/auth/", loginHandler)
+
 	http.Handle("/room", r)
+	fs := http.FileServer(http.Dir("static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	go r.run()
 	log.Println("Webサーバを開始 ポート: ", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
