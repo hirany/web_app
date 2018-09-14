@@ -1,7 +1,7 @@
 FROM golang
 WORKDIR  /go/src/github.com/hirany/web_app/ 
+RUN go get -u golang.org/x/vgo
 COPY . .
-RUN go get github.com/gorilla/websocket
-RUN go build -o chat
+RUN vgo build -o chat
 CMD ./chat
 

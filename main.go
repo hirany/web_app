@@ -37,7 +37,11 @@ func main() {
 	r.tracer = trace.New(os.Stdout)
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "ht.html"}))
 	http.Handle("/login", &templateHandler{filename: "loginpage1.html"})
+<<<<<<< HEAD
 	http.HandleFunc("/auth/", loginHandler)
+=======
+	//http.HandleFunc("/auth/", loginHandler)
+>>>>>>> b16fc8c2f6c6734a34809a90d263cf2fc8a4fead
 
 	http.Handle("/room", r)
 	fs := http.FileServer(http.Dir("static/"))
