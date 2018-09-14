@@ -25,6 +25,7 @@
 		//ENTERキーならsubmit
 		if(window.event.keyCode==13){
 			document.formname.submit();
+    }
 	}
 
 	$(function(){
@@ -51,7 +52,7 @@
 		}
 		socket.onmessage = function(e){
 			messages.append($("<li>").text(e.data));
-		}   
+		}
 	}
 });
 	</script>

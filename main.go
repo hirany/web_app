@@ -33,14 +33,17 @@ func main() {
 	gomniauth.WithProviders(
 		google.New("", "", "http://localhost:8000/auth/callback/google"),
 	)
+
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
+	http.Handle("/room", r)
+	go r.run()
+
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "ht.html"}))
 	http.Handle("/login", &templateHandler{filename: "loginpage1.html"})
 	http.HandleFunc("/auth/", loginHandler)
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	go r.run()
 	log.Println("Webサーバを開始 ポート: ", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
