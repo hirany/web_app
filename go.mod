@@ -3,6 +3,7 @@ module github.com/hirany/web_app
 require (
 	github.com/clbanning/x2j v0.0.0-20180326210544-5e605d46809c // indirect
 	github.com/gorilla/websocket v1.4.0
+	github.com/joho/godotenv v1.3.0
 	github.com/stretchr/codecs v0.0.0-20170403063245-04a5b1e1910d // indirect
 	github.com/stretchr/gomniauth v0.0.0-20170717123514-4b6c822be2eb
 	github.com/stretchr/objx v0.1.1

@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/hirany/web_app/trace"
+	"github.com/joho/godotenv"
 	"github.com/stretchr/gomniauth"
 	"github.com/stretchr/gomniauth/providers/google"
 )
@@ -29,9 +30,19 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8000", "アプリケーションのアドレス")
 	flag.Parse()
+
+	// .envを読み込む
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	gomniauth.SetSecurityKey("セキュリティーキー")
+	apiKey := os.Getenv("GOOGLE_API_KEY")
+	apiSecret := os.Getenv("GOOGLE_API_SECRET")
+
 	gomniauth.WithProviders(
-		google.New("", "", "http://localhost:8000/auth/callback/google"),
+		google.New(apiKey, apiSecret, "http://localhost:8000/auth/callback/google"),
 	)
 
 	r := newRoom()

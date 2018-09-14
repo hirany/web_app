@@ -23,3 +23,6 @@
 # End of https://www.gitignore.io/api/go
 
 chat
+web_app
+
+.env
